@@ -47,3 +47,56 @@ const images = [
         text: 'Marvel\'s Avengers is an epic, third-person, action-adventure game that combines an original, cinematic story with single-player and co-operative gameplay.',
     }
 ];
+
+//al caricamento della pagina la prima immagine/thumbnail è activeItem
+let activeItem = 0; // SOURCE OF TRUTH (controlla l'indice di tutte le immagini/thumbnail)
+
+//per ogni immagine creo un template e lo inserisco nel dom
+const imagesContainer = document.querySelector('.images-container');
+const thumbnailsContainer = document.querySelector('.thumbnails-container');
+images.forEach((singleImage) => {
+    const newImage = `
+        <div class="single-image">
+            <img src="${singleImage.image}">
+            <div class="single-image-text">
+                <h2>${singleImage.title}</h2>
+                <p>${singleImage.text}</p>
+            </div>
+        </div>
+    `
+    imagesContainer.innerHTML += newImage;
+
+    const newThumbnail = `
+        <div class="single-thumbnail">
+        <img src="${singleImage.image}"
+        </div>
+    `
+    thumbnailsContainer.innerHTML += newThumbnail;
+});
+
+//assegno la classe active all'imagine/thumbnail all'apertura della pagina
+const allImages = document.querySelectorAll('.single-image');
+const allThumbnails = document.querySelectorAll('.single-thumbnail')
+allImages[activeItem].classList.add('active');
+allThumbnails[activeItem].classList.add('active');
+
+//al click dell'utente sulla freccia next, l'immagine/thumbnail succcessiva diventa active
+const nextBtn = document.querySelector('.arrow.next')
+nextBtn.addEventListener('click', function(){
+    document.querySelector('.single-image.active').classList.remove('active');
+    document.querySelector('.single-thumbnail.active').classList.remove('active');
+    activeItem++;
+    allImages[activeItem].classList.add('active');
+    allThumbnails[activeItem].classList.add('active');
+});
+
+//al click dell'utente sulla freccia previous, l'immagine/thumbnail precedente diventa active
+const prevBtn = document.querySelector('.arrow.previous')
+prevBtn.addEventListener('click', function(){
+    document.querySelector('.single-image.active').classList.remove('active');
+    document.querySelector('.single-thumbnail.active').classList.remove('active');
+    activeItem--;
+    allImages[activeItem].classList.add('active');
+    allThumbnails[activeItem].classList.add('active');
+});
+ 
