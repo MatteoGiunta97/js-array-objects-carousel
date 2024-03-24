@@ -51,7 +51,7 @@ const images = [
 //al caricamento della pagina la prima immagine/thumbnail è activeItem
 let activeItem = 0; // SOURCE OF TRUTH (controlla l'indice di tutte le immagini/thumbnail)
 
-//per ogni immagine creo un template e lo inserisco nel dom
+//per ogni immagine/thumbnail creo un template e lo inserisco nel dom
 const imagesContainer = document.querySelector('.images-container');
 const thumbnailsContainer = document.querySelector('.thumbnails-container');
 images.forEach((singleImage) => {
@@ -74,18 +74,26 @@ images.forEach((singleImage) => {
     thumbnailsContainer.innerHTML += newThumbnail;
 });
 
-//assegno la classe active all'imagine/thumbnail all'apertura della pagina
+//assegno la classe active all'imagine/thumbnail con indice 0 (all'apertura della pagina)
 const allImages = document.querySelectorAll('.single-image');
 const allThumbnails = document.querySelectorAll('.single-thumbnail')
 allImages[activeItem].classList.add('active');
 allThumbnails[activeItem].classList.add('active');
 
-//al click dell'utente sulla freccia next, l'immagine/thumbnail succcessiva diventa active
+//al click dell'utente sulla freccia next, l'immagine/thumbnail successiva diventa active
 const nextBtn = document.querySelector('.arrow.next')
 nextBtn.addEventListener('click', function(){
+    //al click rimuovo la classe active dall'elemento corrente
     document.querySelector('.single-image.active').classList.remove('active');
     document.querySelector('.single-thumbnail.active').classList.remove('active');
-    activeItem++;
+    //al click incremento l'indice solo se non ha già raggiunto l'ultimo elemento 
+    //dell'array allImages, altrimenti resetto l'indice al primo elemento
+    if (activeItem < allImages.length - 1) {
+        activeItem++;
+    } else {
+        activeItem = 0;
+    }
+    //al click assegno la classe active all'elemento successivo
     allImages[activeItem].classList.add('active');
     allThumbnails[activeItem].classList.add('active');
 });
@@ -93,9 +101,17 @@ nextBtn.addEventListener('click', function(){
 //al click dell'utente sulla freccia previous, l'immagine/thumbnail precedente diventa active
 const prevBtn = document.querySelector('.arrow.previous')
 prevBtn.addEventListener('click', function(){
+    //al click rimuovo la classe active dall'elemento corrente
     document.querySelector('.single-image.active').classList.remove('active');
     document.querySelector('.single-thumbnail.active').classList.remove('active');
-    activeItem--;
+    //al click decremento l'indice solo se non ha già raggiunto il primo elemento 
+    //dell'array allImages, altrimenti porto l'indice all'ultimo elemento
+    if (activeItem > 0) {
+        activeItem--;
+    } else {
+        activeItem = allImages.length - 1;
+    }
+    //al click assegno la classe active all'elemento precedente
     allImages[activeItem].classList.add('active');
     allThumbnails[activeItem].classList.add('active');
 });
